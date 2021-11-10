@@ -5,7 +5,7 @@ import { Web3ReactProvider, useWeb3React, UnsupportedChainIdError } from '@web3-
 import { Web3Provider } from '@ethersproject/providers'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { DAppProvider} from '@usedapp/core'
+import {DAppProvider} from '@usedapp/core';
 
 function getLibrary(provider, connector) {
   return new Web3Provider(provider) // this will vary according to whether you use e.g. ethers or web3.js
