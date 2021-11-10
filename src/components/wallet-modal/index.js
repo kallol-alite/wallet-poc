@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SUPPORTED_WALLETS } from '../config';
-import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
+// import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
+import {useEthers} from '@usedapp/core';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -27,15 +28,19 @@ const style = {
 
 export default function WalletModal(props) {
 
-    const { activate, error } = useWeb3React();
+    const { activate, account, activateBrowserWallet } = useEthers();
 
     //function to handle connection to wallet using the wallet connectors
     //if wallet connection to metamask pass the connector directly to activate
     const connectWallet = async (connector, name) => {
-        let connect = name === 'MetaMask' ? connector : await connector();
-        activate(connect, undefined, true).catch((err) => {
-            toast(err);
-        }) ;
+        if(name === 'MetaMask') {
+            activateBrowserWallet()
+        } else{
+            let connect = await connector();
+                activate(connect, undefined, true).catch((err) => {
+                    toast(err);
+            });
+        }
     }
 
     return(
