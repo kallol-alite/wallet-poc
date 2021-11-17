@@ -1,6 +1,7 @@
 import Header from './components/header';
-import Rinkeby from './components/body/rinkeby';
+//import Rinkeby from './components/body/rinkeby';
 import Investment from './components/Invest';
+
 
 
 function App() {

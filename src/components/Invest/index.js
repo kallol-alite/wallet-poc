@@ -19,6 +19,7 @@ export default function Investment() {
 
     const contractAbi1 = new utils.Interface(abi1)
     const contractAddress1 = "0x78dFcd51Ae6Cb496a7eE547236567802E7B808FE"
+    //const contractAddress1 = "0xf4CD3d3Fda8d7Fd6C5a500203e38640A70Bf9577" // deployed on mainnet
 
     const contract1 = new ethers.Contract(contractAddress1, contractAbi1)
 
@@ -32,23 +33,21 @@ export default function Investment() {
         setFields({ ...fields, [e.target.name]: e.target.value })
     }
 
-    const submit = async (e) => {
+    const submit = async (e, actionType) => {
         e.preventDefault();
-        await depositY(fields.address, fields.token, fields.time1, fields.time2);
-        setFields({ address: "", amount: "", time1: 10, time2: 10 });
+        if (actionType === "D") {
+            await depositY(fields.address, fields.token, fields.time1, fields.time2);
+        }
+        else if (actionType === "W") {
+            await withdrawY(fields.address);
+        }
+        else if (actionType === "A") {
+            await approveY(fields.address, fields.token);
+        }
+
+        //setFields({ address: "", amount: "", time1: 10, time2: 10 });
     }
 
-    const submit1 = async (e) => {
-        e.preventDefault();
-        await withdrawY(fields.address);
-        setFields({ address: "", amount: "", time1: 10, time2: 10 });
-    }
-
-    const submit2 = async (e) => {
-        e.preventDefault();
-        await approveY(fields.address, fields.token);
-        setFields({ address: "", amount: "", time1: 10, time2: 10 });
-    }
 
     const balance = useContractCall({
         abi: contractAbi,
@@ -61,7 +60,7 @@ export default function Investment() {
         if (balance) {
             setBal(balance)
         }
-    }, [balance, bal]);
+    }, [balance]);
 
 
     return (
@@ -81,25 +80,25 @@ export default function Investment() {
                 </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
-                <div style={{minWidth: 'auto', minHeight: 150, border: '1px solid black', borderRadius: 5, margin: 25, padding: 5 }}>
+                <div style={{ minWidth: 'auto', minHeight: 150, border: '1px solid black', borderRadius: 5, margin: 25, padding: 5 }}>
                     <h3 style={{ textAlign: 'center' }}>Deposit</h3>
-                    <form onSubmit={(e) => submit(e)}>
+                    <form onSubmit={(e) => submit(e, "D")}>
                         <div style={{ "marginBottom": "10px" }}>
-                            <label style={{"marginRight": "10px", float: 'left' }} htmlFor="address">Address:</label>
-                            <input  name="address" id="address" type="text" onChange={(e) => handleChange(e)} />
+                            <label style={{ "marginRight": "10px", float: 'left' }} htmlFor="address">Address:</label>
+                            <input name="address" id="address" type="text" onChange={(e) => handleChange(e)} />
                         </div>
                         <div style={{ "marginTop": "10px" }}>
-                            <label style={{"marginRight": "10px", float: 'left' }} htmlFor="token">Token:</label>
+                            <label style={{ "marginRight": "10px", float: 'left' }} htmlFor="token">Token:</label>
                             <input style={{ float: 'right' }} name="token" id="token" type="text" onChange={(e) => handleChange(e)} />
                         </div>
-                        <div style={{textAlign: 'center', "marginTop": "40px"}}>
+                        <div style={{ textAlign: 'center', "marginTop": "40px" }}>
                             <button type="submit">Deposit</button>
                         </div>
                     </form>
                 </div>
                 <div style={{ minWidth: 150, minHeight: 150, border: '1px solid black', borderRadius: 5, margin: 25, padding: 5 }}>
                     <h3 style={{ textAlign: 'center' }}>Withdraw</h3>
-                    <form onSubmit={(e) => submit1(e)}>
+                    <form onSubmit={(e) => submit(e, "W")}>
                         <div style={{ marginBottom: 10 }}>
                             <label style={{ "marginRight": "10px" }} htmlFor="address">Address:</label>
                             <input name="address" id="address" type="text" onChange={(e) => handleChange(e)} />
@@ -112,20 +111,20 @@ export default function Investment() {
                 </div>
                 <div style={{ minWidth: 150, minHeight: 150, border: '1px solid black', borderRadius: 5, margin: 25, padding: 5 }}>
                     <h3 style={{ textAlign: 'center' }}>Approve</h3>
-                    <form onSubmit={(e) => submit2(e)}>
-                    <div style={{ "marginBottom": "10px" }}>
-                            <label style={{"marginRight": "10px", float: 'left' }} htmlFor="address">Address:</label>
-                            <input  name="address" id="address" type="text" onChange={(e) => handleChange(e)} />
+                    <form onSubmit={(e) => submit(e, "A")}>
+                        <div style={{ "marginBottom": "10px" }}>
+                            <label style={{ "marginRight": "10px", float: 'left' }} htmlFor="address">Address:</label>
+                            <input name="address" id="address" type="text" onChange={(e) => handleChange(e)} />
                         </div>
                         <div style={{ "marginTop": "10px" }}>
-                            <label style={{"marginRight": "10px", float: 'left' }} htmlFor="token">Token:</label>
+                            <label style={{ "marginRight": "10px", float: 'left' }} htmlFor="token">Token:</label>
                             <input style={{ float: 'right' }} name="token" id="token" type="text" onChange={(e) => handleChange(e)} />
                         </div>
-                        <div style={{textAlign: 'center', "marginTop": "40px"}}>
+                        <div style={{ textAlign: 'center', "marginTop": "40px" }}>
                             <button type="submit">Approve</button>
                         </div>
                     </form>
-
+                    <p>{approveX.errorMessage}</p>
                 </div>
             </div>
             {/* <div>
