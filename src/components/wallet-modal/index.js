@@ -58,10 +58,10 @@ export default function WalletModal(props) {
                         <Typography component="div" variant="h5">
                             Select a Wallet
                         </Typography>
-                        {Object.keys(SUPPORTED_WALLETS).map((key) => {
+                        {Object.keys(SUPPORTED_WALLETS).map((key, i) => {
                             return(
-                                <>
-                                    <Card sx={{ display: 'flex', marginY: 2, cursor: 'pointer' }} onClick={() => connectWallet(SUPPORTED_WALLETS[key].connector, SUPPORTED_WALLETS[key].name)}>
+                                <div key={i}>
+                                    <Card  sx={{ display: 'flex', marginY: 2, cursor: 'pointer' }} onClick={() => connectWallet(SUPPORTED_WALLETS[key].connector, SUPPORTED_WALLETS[key].name)}>
                                         <CardContent sx={{ flex: '1 0 auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                             {SUPPORTED_WALLETS[key].name}
                                         </CardContent>
@@ -71,7 +71,7 @@ export default function WalletModal(props) {
                                             image={SUPPORTED_WALLETS[key].iconName}
                                         />
                                     </Card>
-                                </>
+                                </div>
                             )
                         })}
                     </Box>

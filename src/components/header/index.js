@@ -9,15 +9,18 @@ import Toolbar from '@mui/material/Toolbar';
 import {useWeb3React} from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import WalletModal from '../wallet-modal';
+import {useEthers, shortenAddress} from '@usedapp/core';
 
 
 const Header = (props) => {
     
-    const {deactivate, account} = useWeb3React();
+    //const {deactivate, account} = useWeb3React();
     // const {activate} = useWeb3React();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const { deactivate, account } = useEthers();
 
     return(
         <>
@@ -37,7 +40,7 @@ const Header = (props) => {
                     DApp
                 </Typography>
                 {account && <div style={{border: '1px solid white', borderRadius: 10, padding: 5}}>
-                  Address: {account}
+                  Address: {shortenAddress(account)}
                 </div>}
                 {account ? <Button color="inherit" onClick={deactivate}>Disconnect Wallet</Button> :<Button color="inherit" onClick={handleOpen}>Connect Wallet</Button>}
                 </Toolbar>

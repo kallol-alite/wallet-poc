@@ -39,10 +39,10 @@ export const SUPPORTED_WALLETS = {
         connector: async () => {
             const WalletConnectConnector = (await import('@web3-react/walletconnect-connector')).WalletConnectConnector
             return new WalletConnectConnector({
-                rpc: RPC,
+                rpc: { 1: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161" } ,
                 bridge: 'https://bridge.walletconnect.org',
                 qrcode: true,
-                supportedChainIds: SupportedChainIds,
+               // supportedChainIds: SupportedChainIds,
             })
         },
         name: 'WalletConnect',
@@ -56,7 +56,7 @@ export const SUPPORTED_WALLETS = {
         connector: async () => {
             const WalletLinkConnector = (await import('@web3-react/walletlink-connector')).WalletLinkConnector
             return new WalletLinkConnector({
-                url: RPC[ChainId.MAINNET],
+                url: RPC[ChainId.RINKEBY],
                 appName: 'Test Wallet',
                 appLogoUrl: 'https://raw.githubusercontent.com/sushiswap/art/master/sushi/logo-256x256.png',
             })

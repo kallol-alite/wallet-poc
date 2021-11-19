@@ -16,7 +16,7 @@ ReactDOM.render(
     <ToastContainer />
     {/* <Web3ReactProvider getLibrary={getLibrary}> */}
     <DAppProvider>
-      <App />
+      <App  />
     </DAppProvider>
     {/* </Web3ReactProvider> */}
   </React.StrictMode>,
